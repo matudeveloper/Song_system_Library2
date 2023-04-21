@@ -1,0 +1,22 @@
+{
+  "name": "vite-project",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "install": "node runInstall.js",
+    "dev": "node runDev.js",
+    "test": "npx cypress open -b chrome --e2e"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^15.1.4",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.0"
+  },
+  "dependencies": {
+    "pinia": "^2.0.34",
+    "ts-node": "^10.9.1"
+  }
+}
