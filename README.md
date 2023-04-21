@@ -2,7 +2,7 @@
 
 Song Library is simple libary what helps you to manage songs
 
-### Installation
+### Installations
 
 1. Clone the repo
 2. Run `npm install` to install the dependencies of the main project
