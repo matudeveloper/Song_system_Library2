@@ -3,6 +3,6 @@ export default {}
 </script>
 <template>
   <div>
-    <h1>Notes</h1>
+    <h1>Song Library System</h1>
   </div>
 </template>
