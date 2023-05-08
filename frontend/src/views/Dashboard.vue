@@ -26,14 +26,49 @@
         <div class="modal-action">
           <label for="my-modal" style="background-color: red;" class="btn">Close</label>
           <!-- <label for="my-modal" class="btn">Create</label> -->
-          <button style="color: white; background-color: #3D4451; font-size: 14px; padding: 0 16px; width: 82px;"  type="submit">Create</button>
+          <button style="color: white; background-color: #3D4451; font-size: 14px; padding: 0 16px; width: 82px;"
+            type="submit">Create</button>
 
         </div>
 
       </div>
     </div>
   </form>
+  <form @submit.prevent="handleUpdate">
 
+
+    <input type="checkbox" id="my-modal2" class="modal-toggle" />
+    <div class="modal">
+      <div class="modal-box">
+        <h3>Update for {{ state.name }}</h3>
+        <div class="form-control w-full ">
+          <label class="label"> <span class="label-text">Song name</span> </label>
+          <input v-model="state.name" type="text" placeholder="Type here" class="input input-bordered w-full" />
+          <label class="label"> <span class="label-text">Song author</span> </label>
+          <input v-model="state.author" type="text" placeholder="Type here" class="input input-bordered w-full" />
+          <label class="label"> <span class="label-text">Album name</span> </label>
+          <input v-model="state.album" type="text" placeholder="Type here" class="input input-bordered w-full" />
+          <label class="label"> <span class="label-text">Release Date</span> </label>
+          <input v-model="state.release" type="date" placeholder="Type here" class="input input-bordered w-full" />
+          <label class="label"> <span class="label-text">Image imageUrl</span> </label>
+          <input v-model="state.imageUrl" type="text" placeholder="Type here" class="input input-bordered w-full" />
+          <label class="label"> <span class="label-text">Song post title</span> </label>
+          <input v-model="state.songTextTitle" type="text" placeholder="Type here" class="input input-bordered w-full" />
+          <label class="label"> <span class="label-text">Song post description</span> </label>
+          <textarea v-model="state.songTextDesc" class="textarea textarea-bordered" placeholder="Bio"></textarea>
+
+        </div>
+        <div class="modal-action">
+          <label @click="closeUpdate" for="my-modal2" style="background-color: red;" class="btn">Close</label>
+          <!-- <label for="my-modal" class="btn">Create</label> -->
+          <button style="color: white; background-color: #3D4451; font-size: 14px; padding: 0 16px; width: 82px;"
+            type="submit">Update</button>
+
+        </div>
+
+      </div>
+    </div>
+  </form>
   <div class="w-full my-5" style="display: flex; justify-content: end; align-items: center;">
     <label for="my-modal" class="btn">Add new song</label>
   </div>
@@ -63,7 +98,7 @@
               <div class="avatar">
                 <div class="mask mask-squircle w-12 h-12">
                   <RouterLink :to="`/s/${song.id}`"> <img :src="song.imageUrl" :alt="song.name" /></RouterLink>
-                 
+
                 </div>
               </div>
               <div>
@@ -81,6 +116,10 @@
           <td>{{ formatDate(song.release) }}</td>
           <th>
             <button @click="handleDelete(song.id)" class="btn btn-ghost btn-xs">Delete</button>
+            <label @click="setCurrentSong(song)" for="my-modal2" class="btn btn-ghost btn-xs">Update</label>
+
+
+
           </th>
         </tr>
 
@@ -104,9 +143,9 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
 import { $http } from '../utils/http';
-import { Router } from 'express';
 
 const state = reactive({
+  id: '',
   name: '',
   author: '',
   album: '',
@@ -116,6 +155,19 @@ const state = reactive({
   songTextDesc: ''
 
 })
+
+const setCurrentSong = (song: any) => {
+  state.id = song.id,
+    state.name = song.name
+  state.author = song.author,
+    state.album = song.album,
+    state.release = song.release,
+    state.imageUrl = song.imageUrl,
+    state.songTextTitle = song.songTextTitle,
+    state.songTextDesc = song.songTextDesc
+  console.log(song.release)
+}
+
 
 
 interface ISong {
@@ -136,9 +188,19 @@ onMounted(async () => {
   songs.value = data
 })
 
+const closeUpdate = () => {
+  state.name = ''
+  state.author = '',
+    state.album = '',
+    state.release = null,
+    state.imageUrl = '',
+    state.songTextTitle = '',
+    state.songTextDesc = ''
+}
+
 const handleSubmit = async () => {
   const response = await $http.post('/songs/createSong', { name: state.name, author: state.author, album: state.album, release: state.release, imageUrl: state.imageUrl, songTextTitle: state.songTextTitle, songTextDesc: state.songTextDesc })
-    songs.value.push(response as any)
+  songs.value.push(response as any)
 }
 
 const handleDelete = async (id: string) => {
@@ -146,6 +208,29 @@ const handleDelete = async (id: string) => {
   songs.value = songs.value.filter(song => song.id !== id)
 
 }
+
+const handleUpdate = async (id: string) => {
+  await $http.patch(`/songs/updateSong/${state.id}`, {
+    id: state.id,
+    name: state.name,
+    author: state.author,
+    album: state.album,
+    imageUrl: state.imageUrl,
+    songTextTitle: state.songTextTitle,
+    songTextDesc: state.songTextDesc,
+    release: state.release
+  },
+  songs.value = songs.value.map((song) => {
+    if (song.id === state.id) {
+      return { ...song, ...state }
+    }
+    return song
+  })
+  )
+  // songs.value = songs.value.filter(song => song.id !== id)
+
+}
+
 function formatDate(dateString: string) {
   const date = new Date(dateString)
   return date.toLocaleDateString()

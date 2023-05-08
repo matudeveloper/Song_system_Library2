@@ -68,4 +68,8 @@ export class $http {
   static delete(url: string, data: any, config = {}) {
     return this.request("DELETE", url, data, config);
   }
+
+  static patch(url: string, data: any, config = {}) {
+    return this.request("PATCH", url, data, config);
+  }
 }

@@ -48,7 +48,7 @@ router.beforeEach((to, from, next) => {
   const sessionId = localStorage.getItem("sessionId");
   const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
 
- 
+ console.log('sessionid',sessionId)
 
   if (requiresAuth && !sessionId) {
     // User is not logged in and the route requires authentication

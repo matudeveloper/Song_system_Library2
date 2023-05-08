@@ -108,6 +108,37 @@ router.delete(
   }
 );
 
+
+router.patch(
+  "/updateSong/:id", authorizeRequest,
+  async (req: Request, res: Response, next: NextFunction) => {
+    const {
+      name,
+      author,
+      album,
+      release,
+      imageUrl,
+      songTextTitle,
+      songTextDesc,
+    } = req.body;
+    const id = req.params.id;
+    await prisma.song.update({
+      where: { id: id },
+      data: {
+        name,
+        author,
+        album,
+        release: new Date(release),
+        imageUrl,
+        songTextTitle,
+        songTextDesc,
+      }
+    });
+
+    return res.status(200).send("Updated");
+  } 
+);
+
 router.get(
   "/getSong/:id",
   async (req: Request, res: Response, next: NextFunction) => {
