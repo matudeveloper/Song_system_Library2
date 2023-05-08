@@ -4,12 +4,13 @@ import { useAppStore } from "../stores/app";
 // @ts-ignore
 import SignUp from "../views/SignUp.vue";
 import SignIn from "../views/SignIn.vue";
-import Notes from "../views/Notes.vue";
-
+import Notes from "../views/Dashboard.vue";
+import Home from '../views/Index.vue'
+import SongPage from '../views/SongView.vue'
 const routes = [
   {
-    path: "/",
-    name: "Notes",
+    path: "/dashboard",
+    name: "Dashboard",
     component: Notes,
     meta: {
       requiresAuth: true,
@@ -26,6 +27,16 @@ const routes = [
     name: "Sign In",
     component: SignIn,
   },
+  {
+    path: "/",
+    name: "Home",
+    component: Home,
+  },
+  {
+    path: "/s/:id",
+    name: "Song",
+    component: SongPage,
+  }
 ];
 
 const router = createRouter({

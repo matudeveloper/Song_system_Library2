@@ -1,8 +1,8 @@
 ## Newspaper
 
-Song Library is simple libary what helps you to manage songs
+Newspaper is a simple express app that allows you to create a simple blog.
 
-### Installations
+### Installation
 
 1. Clone the repo
 2. Run `npm install` to install the dependencies of the main project

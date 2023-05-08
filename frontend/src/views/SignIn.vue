@@ -57,7 +57,7 @@ async function signIn() {
     localStorage.setItem('sessionId', response.message)
     appStore.sessionId = response.message
 
-    router.push('/')
+    router.push('/dashboard')
 
   })
 }

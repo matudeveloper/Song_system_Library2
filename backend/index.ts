@@ -6,6 +6,8 @@ import * as dotenv from "dotenv";
 import usersRoutes from "./routes/usersRoutes";
 import sessionsRoute from "./routes/sessionRoute";
 import cors from "cors";
+import songsRoute from "./routes/songRoutes";
+
 import swaggerJsDoc from "swagger-jsdoc";
 import swaggerFile from './swagger_output.json'
 
@@ -34,6 +36,7 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 
 app.use("/users", usersRoutes);
 app.use("/sessions", sessionsRoute);
+app.use("/songs", songsRoute);
 
 // Health check
 app.get("/health-check", (req, res) => {

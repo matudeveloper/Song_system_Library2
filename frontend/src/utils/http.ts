@@ -61,6 +61,10 @@ export class $http {
     return this.request("POST", url, data, config);
   }
 
+  static get(url: string, data: any, config = {}) {
+    return this.request("GET", url, data, config);
+  }
+
   static delete(url: string, data: any, config = {}) {
     return this.request("DELETE", url, data, config);
   }
